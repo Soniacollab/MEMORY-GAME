@@ -18,6 +18,9 @@
 			const parsed = JSON.parse(raw);
 			if (!parsed || typeof parsed !== "object") return null;
 			if (typeof parsed.ms !== "number" || typeof parsed.moves !== "number") return null;
+			// Protection: un ancien bug pouvait enregistrer 0ms.
+			if (!Number.isFinite(parsed.ms) || parsed.ms <= 0) return null;
+			if (!Number.isFinite(parsed.moves) || parsed.moves <= 0) return null;
 			return parsed;
 		} catch {
 			return null;

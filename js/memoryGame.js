@@ -112,6 +112,7 @@
         this.startedAt = null;
         this.timerId = null;
         this.running = false;
+		this.elapsedMs = 0;
 
         // Métadonnées d'images (pour un cadrage plus propre)
         this.imageFocusBySrc = new Map();
@@ -152,6 +153,7 @@
         if (this.running) return;
         this.running = true;
         this.startedAt = performance.now();
+		this.elapsedMs = 0;
         this.timerId = window.setInterval(() => {
             const now = performance.now();
             this.element.timeEl.textContent = App.utils.formatTime(now - this.startedAt);
@@ -163,14 +165,17 @@
     MemoryGame.prototype.stopTimer = function () {
         if (this.timerId) window.clearInterval(this.timerId);
         this.timerId = null;
+		if (this.startedAt != null) {
+			this.elapsedMs = Math.max(0, performance.now() - this.startedAt);
+		}
         this.running = false;
     };
 
 
     // Méthode pour obtenir le temps écoulé actuel en millisecondes
     MemoryGame.prototype.currentElapsedMs = function () {
-        if (!this.running || this.startedAt == null) return 0;
-        return performance.now() - this.startedAt;
+		if (this.running && this.startedAt != null) return performance.now() - this.startedAt;
+		return this.elapsedMs || 0;
     };
 
 
@@ -359,6 +364,7 @@
     MemoryGame.prototype.resetGame = function () {
         this.stopTimer();
         this.startedAt = null;
+		this.elapsedMs = 0;
         this.element.timeEl.textContent = "00:00";
 
         this.moves = 0;
