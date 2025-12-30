@@ -1,32 +1,75 @@
-# Arcade Memory
+# Arcade Memory (Cyberpunk Violet)
 
-Jeu de Memory en vanilla JS avec un style arcade (fond animé en CSS) et des images locales.
+Jeu de Memory en **vanilla JavaScript** avec un thème **cyberpunk violet** (CSS) et des images locales.
+
+## Objectif
+
+Trouver toutes les paires le plus vite possible avec le moins de coups.
 
 ## Lancer le projet
 
-- Ouvre `index.html` dans ton navigateur.
+### Option 1 — Simple
 
-Si ton navigateur bloque certaines choses en `file://`, lance un mini-serveur dans le dossier `Finale/` :
-- Python : `python -m http.server 5500`
-- Puis ouvre `http://localhost:5500`
+Ouvre `index.html` dans ton navigateur.
 
-## Images du jeu
+### Option 2 — Recommandé (évite les blocages `file://`)
 
-Le jeu utilise 6 images (dupliquées en paires) dans `img/` :
+Lance un petit serveur HTTP dans le dossier du projet, puis ouvre l’URL indiquée.
+
+**Python (si installé)**
+
+```bash
+python -m http.server 5500
+```
+
+Puis: http://localhost:5500
+
+## Comment jouer
+
+- Clique sur une carte pour la retourner.
+- Retourne une deuxième carte.
+- Si elles sont identiques: la paire est validée.
+- Sinon: les cartes se retournent.
+
+## Personnaliser les images des cartes
+
+Par défaut, le jeu utilise **6 images** dans le dossier `img/` (elles sont dupliquées pour former les paires):
+
 - `IMG1.jpeg` … `IMG6.jpeg`
 
-Pour changer tes cartes, remplace ces fichiers (en gardant les mêmes noms), ou modifie la liste dans `js/script.js`.
+Pour remplacer les cartes:
 
-## Sauvegarde du meilleur score
+1) Remplace les fichiers dans `img/` en gardant les mêmes noms, **ou**
+2) Modifie la liste dans `js/script.js` (tableau `files`).
+
+Conseils pour un rendu propre:
+
+- Utilise des images avec un style/ratio proche (sinon elles seront recadrées en `cover`).
+- Les cartes recadrent automatiquement avec `object-fit: cover`.
+
+## Meilleur score
 
 Le meilleur score est stocké dans le navigateur via `localStorage` (clé `arcade-memory:best`).
 
-## Droits / IA (résumé pratique)
+## Structure
 
-- Si tes images sont générées via un outil IA, tu peux généralement les utiliser dans ton projet **si** tu respectes leurs conditions d’utilisation.
-- Dans tous les cas, évite les personnages/logos/franchises reconnaissables : les conditions des outils disent en général que **tu restes responsable** si tu enfreins les droits d’autrui.
+```
+Finale/
+├── index.html
+├── css/
+│   └── style.css
+├── img/
+│   ├── IMG1.jpeg
+│   └── ...
+└── js/
+	├── memoryGame.js
+	├── script.js
+	├── storage.js
+	└── utils.js
+```
 
-## Crédits
+## Notes (style / performance)
 
-- Background : fond animé généré en CSS (pas d’asset externe).
-- Cartes : `img/IMG1.jpeg` … `img/IMG6.jpeg` (créations originales de l’auteur, générées via outils IA).
+- Les animations sont gérées en CSS et restent légères (priorité aux transitions `transform`).
+- Si tu veux encore plus rapide: réduis la durée du flip dans `css/style.css` (règle `.cardInner`).
+
